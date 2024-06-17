@@ -8,14 +8,17 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <button id="startButton">Start Game</button>
-    <h1 id="welcome-heading">Welcome, {{ user_name }}</h1>
-    
-    <div class="game-area">
-        <div class="ball"></div>
-        <div class="paddle" id="paddle1"></div>
-        <div class="paddle" id="paddle2"></div>
+    <button class="login-button" id="loginButton1" onclick="window.location.href='{% url 'api' %}'">Login Player 1</button>
+    <button class="login-button" id="loginButton2" onclick="window.location.href='{% url 'api' %}'">Login Player 2</button>
+
+
+		<span class="sep"></span>
+
+		<canvas></canvas>
+
+	</body>
     </div>
     <script src="{% static 'js/script.js' %}"></script>
 </body>
 </html>
+

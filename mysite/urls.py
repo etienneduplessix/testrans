@@ -23,6 +23,7 @@ from mysite.view import home, api, callback
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', view.api, name='api'),
-    path('', home),
+    path('', view.home, name='home'),
     path('api/callback/', callback, name='callback'), 
+    path('items/', view.items_list, name='items_list'),
 ]
