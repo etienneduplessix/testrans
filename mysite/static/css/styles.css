@@ -7,7 +7,7 @@ body, html {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #000;
+    background-color: #fff;
 }
 
 
@@ -17,7 +17,7 @@ body, html {
     left: 20px;
     padding: 10px 20px;
     font-size: 16px;
-    background-color: #007bff;
+    background-color: #ff0037;
     color: #fff;
     border: none;
     cursor: pointer;
@@ -27,7 +27,7 @@ body, html {
     position: relative;
     width: 600px;
     height: 400px;
-    background-color: #111;
+    background-color: #cf3737;
 }
 
 .ball {
@@ -55,4 +55,11 @@ body, html {
 #paddle2 {
     right: 10px;
     top: 160px;
+}
+
+#welcome-heading {
+    background-color: #fff;
+    color: #cf3737;
+    text-align: left;
+    padding: 10px; /* Adjust padding as needed */
 }
