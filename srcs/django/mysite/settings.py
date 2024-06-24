@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-#1^b)+*s!u77qywvc4n5cqg@5hr3+^$zu%(p&lmkf5h4mvy!yb
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1']
+
 
 
 # Application definition
@@ -73,13 +74,15 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# srcs/django/mysite/settings.py
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'mydatabase',
         'USER': 'myuser',
         'PASSWORD': 'mypassword',
-        'HOST': 'db',
+        'HOST': 'db',  # This matches the service name in docker-compose.yml
         'PORT': '5432',
     }
 }

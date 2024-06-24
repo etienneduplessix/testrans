@@ -1,4 +1,4 @@
-/* styles.css */
+
 
 
 html, body {
@@ -14,8 +14,8 @@ canvas
 	margin: 10px;
 	padding: 0;
 	background-color: black;
-	width: 50% ;
-	height: 50%;
+	width: 100% ;
+	height: 100%;
 	border: 10px solid white;
 
 }
@@ -28,75 +28,61 @@ canvas
 	display: inline-block;
 }
 
-
-
-.game-area {
-    position: relative;
-    width: 600px;
-    height: 400px;
-    background-color: #cf3737;
+/* * {
+	margin: 0;
+	box-sizing: border-box;
+	padding: 0;
+}
+#ScoreDiv{
+	display: flex;
+	height:50px;
+	width:200px;
+	left:calc(50% - 100px);
+	position: absolute;
+	z-index:10;
+	color:white;
+	font-size: 3rem;
 }
 
-
-
-#welcome-heading {
-    background-color: #fff;
-    color: #cf3737;
-    text-align: left;
-    padding: 10px; /* Adjust padding as needed */
+#Player1{
+	border-right: 5px solid white;
+	height: 100%;
 }
-
-
-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-family: Arial, sans-serif;
+#Player1,#Player2{
+	width: 50%;
+	display: flex;
+	justify-content: center;
 }
-
-h1 {
-    text-align: center;
+#WinMsg{
+	position: absolute;
+	width:50%;
+	height:120px;
+	box-shadow: 0px 0px 10px 5px #ffffff;
+	background-color: #3e3c3c;
+	color:white;
+	left:25%;
+	top:calc(50% - 60px);
+	font-size:30px;
+	font-family: Nunito,sans-serif;
+	border-radius:5px;
+	display: flex;
+	flex-direction: column;
+	;justify-content: center;
+	text-align: center;
+	padding:10px;
+	display: none;
 }
+button{
+	padding:10px;
+	border-radius: 20px;
+	border:none;
+	background-color: #15814e;
+	color:white;
+	font-weight: 900;
+	margin:auto;
+	cursor:pointer
 
-.login-button {
-    position: absolute;
-    width: 120px;
-    height: 40px;
-    background-color: #007BFF;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
 }
-
-#loginButton1 {
-    left: 160px;  /* Adjust to ensure visibility */
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-#loginButton2 {
-    right: 160px;  /* Adjust to ensure visibility */
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.login-button:hover {
-    background-color: #0056b3;
-}
-
-
-.logout-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #dc3545;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.logout-button:hover {
-    background-color: #c82333;
-}
+button:hover{
+	background-color:#20c076 ;
+} */
