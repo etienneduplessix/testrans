@@ -3,13 +3,21 @@ from django.shortcuts import render, redirect
 import requests
 import random
 import string
+from .models import Item
 
-def items_list(request):
-    items = [
-        {'id': 1, 'name': 'Item 1'},
-        {'id': 2, 'name': 'Item 2'},
-    ]
-    return JsonResponse(items, safe=False)
+
+def item_list(request):
+    items = Item.objects.all()
+    return render(request, 'item_list.html', {'items': items})
+
+def add_item(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        description = request.POST.get('description')
+        item = Item(name=name, description=description)
+        item.save()
+        return redirect('item_list')
+    return render(request, 'add_item.html')
 
 def generate_state(length=32):
     letters = string.ascii_letters + string.digits

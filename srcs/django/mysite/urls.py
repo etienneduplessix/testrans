@@ -25,5 +25,7 @@ urlpatterns = [
     path('api/', view.api, name='api'),
     path('', view.home, name='home'),
     path('api/callback/', callback, name='callback'), 
-    path('items/', view.items_list, name='items_list'),
+    path('item/', view.item_list, name='item_list'),
+    path('item/add/', view.add_item, name='add_item'),
 ]
+

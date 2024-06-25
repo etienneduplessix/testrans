@@ -5,10 +5,13 @@
 		<title > transcend! </title>
 	</head>
 	<body>
-		<span class="sep"></span>
-
-		<canvas></canvas>
-
+		<form method="post">
+			{% csrf_token %}
+			<label for="name">Name:</label>
+			<input type="text" id="name" name="name" required><br><br>
+			<label for="description">Description:</label>
+			<textarea id="description" name="description" required></textarea><br><br>
+			<button type="submit">Add Item</button>
 	</body>
 	<script src="../static/js/script.js"></script>
 

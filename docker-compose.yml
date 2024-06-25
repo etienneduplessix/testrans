@@ -4,20 +4,32 @@ services:
   db:
     build:
       context: ./srcs/PostgreSQL
-      dockerfile: Dockerfile
+    container_name: postgres_db
+    restart: always
     environment:
-      POSTGRES_DB: db
-      POSTGRES_USER: edupless
-      POSTGRES_PASSWORD: 7142128
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      ADMINER__SERVER: db
 
   web:
     build:
       context: ./srcs/django
-      dockerfile: Dockerfile
+    container_name: django_web
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./srcs/django:/app
@@ -25,13 +37,8 @@ services:
       - "8000:8000"
     depends_on:
       - db
-  adminer:
-    image: adminer
-    ports:
-      - "8080:8080"
-    depends_on:
-      - db
+    env_file:
+      - .env
 
 volumes:
   postgres_data:
-

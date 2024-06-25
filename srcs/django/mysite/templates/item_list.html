@@ -1,0 +1,16 @@
+<!-- mysite/templates/item_list.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Item List</title>
+</head>
+<body>
+    <h1>Item List</h1>
+    <ul>
+        {% for item in items %}
+        <li>{{ item.name }}: {{ item.description }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{%'add_item.html' %}">Add a new item</a>
+</body>
+</html>
