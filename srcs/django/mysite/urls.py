@@ -20,6 +20,7 @@ from django.urls import path
 from mysite.view import home
 from mysite.view import home, api, callback 
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', view.api, name='api'),
@@ -27,5 +28,7 @@ urlpatterns = [
     path('api/callback/', callback, name='callback'), 
     path('item/', view.item_list, name='item_list'),
     path('item/add/', view.add_item, name='add_item'),
+    path('templates/<str:template_name>/', view.get_template, name='get_template'),
+    path('<str:template_name>/', view.load_template, name='get_template'),
 ]
 

@@ -1,0 +1,37 @@
+{% load static %}
+{% load templates%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>game?</title>
+	</head>
+	<link rel="stylesheet" href="../static/css/style.css">
+	<body>
+		<h1> Title title</h1>
+
+		<nav>
+			<button data-page="loginForm" class="redirectionButtons">loginForm</button>
+			<button data-page="gameTypeForm" class="redirectionButtons">gameTypeForm</button>
+			<button data-page="playerNames" class="redirectionButtons">playerNames</button>
+			<button data-page="game" class="redirectionButtons">game</button>
+		</nav>
+
+		<div id="content">
+		</div>
+		<script defer src="../static/js/script.js"></script>
+		<script defer src="../static/js/game.js"></script>
+	</body>
+</html>
+
+
+<!--
+	The idea is changing the stuff in #content without resetting the whole page.
+	everything is done through the script.js file
+	Each button calls the loading function which requests the html template with fetch API
+	the url is changed with the history API, which makes using the forward/back button possible too.
+
+	The vision :
+https://www.canva.com/design/DAGHLRR3wMg/-PzrHx8HtZTOt6EZPriA3Q/view?utm_content=DAGHLRR3wMg&utm_campaign=designshare&utm_medium=link&utm_source=editor
+-->

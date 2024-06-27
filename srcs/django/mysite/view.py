@@ -4,6 +4,7 @@ import requests
 import random
 import string
 from .models import Item
+import os 
 
 
 def item_list(request):
@@ -41,11 +42,6 @@ def api(request):
     )
 
     return redirect(authorize_url)
-
-from django.shortcuts import render, redirect
-import requests
-import random
-import string
 
 def callback(request):
     code = request.GET.get('code')
@@ -96,5 +92,23 @@ def callback(request):
     return HttpResponse("Unknown error occurred", status=500)
 
 
+def get_template(request, template_name):
+    if request.method == 'GET':
+        template_path = os.path.join(settings.BASE_DIR, 'mysite/static/templates', f'{template_name}')
+        print("HERE: ", template_path)
+        if os.path.exists(template_path):
+            with open(template_path, 'r') as file:
+                return HttpResponse(file.read(), content_type='text/html')
+        else:
+            raise Http404("Template no bueno")
+    return HttpResponse(status=405)
+
+
+def load_template(request, template_name):
+    return redirect('/')
+
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'index.html')
+
+
+
