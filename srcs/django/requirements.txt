@@ -1,0 +1,8 @@
+Django>=3.2,<4.0
+psycopg2-binary
+requests
+django-environ
+daphne
+redis
+channels
+channels_redis

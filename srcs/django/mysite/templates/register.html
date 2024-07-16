@@ -1,0 +1,11 @@
+<div class="login">
+    <div class="form">
+        <form class="registration-form" method="post" action="{% url 'egister' %}/">
+            <input type="hidden" name="csrfmiddlewaretoken" value="8B0vAr2h0tx3VzHbiPB2WMMfXw1WkweK3MwUDZ8YfDj8ZGnMeFwSb1sx2uUTkA1M">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Create</button>
+            <p class="alternate"><a href="#">Log In</a></p>
+        </form>
+    </div>
+</div>
