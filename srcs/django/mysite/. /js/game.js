@@ -15,7 +15,6 @@ var requestFrame = false;
 // this var currently disables the game
 var gameon = false;
 
-
 var leftPad_up, leftPad_down, rightPad_up, rightPad_down = false;
 
 var ball_speed = 7;

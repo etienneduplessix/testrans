@@ -1,3 +1,4 @@
+
 services:
   db:
     build:
@@ -40,6 +41,7 @@ services:
     build:
       context: ./srcs/django
     container_name: django_web
+    # command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./srcs/django:/app
     ports:

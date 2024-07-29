@@ -4,6 +4,10 @@ import requests
 import string, random
 from mysite.models import User
 from mysite.tools import myprint
+import os
+
+API_UID = os.getenv('42_API_UID')
+API_SECRET = os.getenv('42_API_SECRET')
 
 # Create your views here.
 
@@ -13,7 +17,6 @@ def generate_state(length=32):
 
 
 def api(request):
-	client_id = "u-s4t2ud-2bab19cc143ef78ed9f8965bfad943ab5447157ef0992e53a4cbbf0843926385"
 	redirect_uri = "http://127.0.0.1:8000/api/callback"
 	scope = "public"
 	response_type = "code"
@@ -21,12 +24,9 @@ def api(request):
 	# state = 'fake_unguessable_str1234567890'  # Generate an unguessable random string
 	request.session['oauth_state'] = state # =keep state for verification
 
-	for key, value in request.session.items():
-		print('{} => {}'.format(key, value))
-
 	authorize_url = (
 		"https://api.intra.42.fr/oauth/authorize?"
-		f"client_id={client_id}&"
+		f"client_id={API_UID}&"
 		f"redirect_uri={redirect_uri}&"
 		f"scope={scope}&"
 		f"response_type={response_type}&"
@@ -46,14 +46,13 @@ def callback(request):
 		return HttpResponse("State does not match!")
 
 	token_url = "https://api.intra.42.fr/oauth/token"
-	client_id = "u-s4t2ud-2bab19cc143ef78ed9f8965bfad943ab5447157ef0992e53a4cbbf0843926385"  # Replace with your actual client_id
-	client_secret = "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"  # Replace with your actual client_secret
+	client_secret = "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"  # Replace with your actual client_secret
 	redirect_uri = "http://127.0.0.1:8000/api/callback"  # Replace with your actual redirect URI
 
 	data = {
 		'grant_type': 'authorization_code',
-		'client_id': client_id,
-		'client_secret': client_secret,
+		'client_id': API_UID,
+		'client_secret': API_SECRET,
 		'code': code,
 		'redirect_uri': redirect_uri
 	}

@@ -9,15 +9,15 @@ Watching dir /app/api/locale with glob **/*.mo.
 Watching dir /usr/local/lib/python3.10/site-packages/channels/locale with glob **/*.mo.
 Watching dir /app/chat/locale with glob **/*.mo.
 Watching dir /usr/local/lib/python3.10/site-packages/channels_redis/locale with glob **/*.mo.
-(0.001) 
-            SELECT c.relname,
-            CASE WHEN c.relispartition THEN 'p' WHEN c.relkind IN ('m', 'v') THEN 'v' ELSE 't' END
-            FROM pg_catalog.pg_class c
-            LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
-            WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
-                AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
-                AND pg_catalog.pg_table_is_visible(c.oid)
-        ; args=None
+(0.001)
+			SELECT c.relname,
+			CASE WHEN c.relispartition THEN 'p' WHEN c.relkind IN ('m', 'v') THEN 'v' ELSE 't' END
+			FROM pg_catalog.pg_class c
+			LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+			WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
+				AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+				AND pg_catalog.pg_table_is_visible(c.oid)
+		; args=None
 (0.000) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=()
 Daphne running, listening on 0.0.0.0:8000
 File /usr/local/lib/python3.10/site-packages/django/db/backends/postgresql/schema.py first seen with mtime 1720519611.0313094

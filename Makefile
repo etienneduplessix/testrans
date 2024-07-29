@@ -21,4 +21,3 @@ migrate: down
 	@ echo "${On_Green}MIGRATE${reset}"
 	docker-compose run --rm web python3 manage.py makemigrations mysite
 	docker-compose run --rm web python3 manage.py migrate
-

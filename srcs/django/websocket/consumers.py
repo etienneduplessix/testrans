@@ -8,24 +8,39 @@ import random
 
 
 class Consumer(WebsocketConsumer):
-    def connect(self):
-        if (User.objects.filter(username=self.scope["session"]['login']).exists()):
-            username = User.objects.filter(username=self.scope["session"]['login'])[0]
-        else:
-            self.close()
+	def connect(self):
+		myprint("New Connection! ")
+		self.accept()
 
-        user = Online_ws(login=username, channelname=self.channel_name)
-        user.save()
-        myprint("New Connection! ")
-        self.accept()
+		if 'session' in self.scope:
+			myprint("YAY")
+		else:
+			myprint("NAY")
+			# return
+		if not self.scope["session"].has_key('login'):
+			myprint ("wesocket attempted without login")
+			self.close()
+			return
+		if (User.objects.filter(username=self.scope["session"]['login']).exists()):
+			username = User.objects.filter(username=self.scope["session"]['login'])[0]
+		else:
+			myprint ("user does not exist")
+			self.close()
+			return
 
-    def disconnect(self, close_code):
-        myprint("Connection disconnected")
-        Online_ws.objects.filter(channelName=self.channel_name).delete()
+		wsuser = Online_ws(login=username, channelname=self.channel_name)
+		wsuser.save()
+		# myprint("New Connection! ")
+		# self.accept()
 
-    def receive(self, text_data):
-        # myprint(type(self.channel_name))
-        self.send(self.channel_name +  ' you said: ' + text_data)
+	def disconnect(self, close_code):
+		myprint("Connection disconnected")
+		# Online_ws.objects.filter(channelName=self.channel_name).delete()
+		self.close()
+
+	def receive(self, text_data):
+		# myprint(type(self.channel_name))
+		self.send( self.channel_name +   ' you said: ' + text_data)
 
 
 
@@ -33,6 +48,6 @@ class Consumer(WebsocketConsumer):
 
 # channel_layer = get_channel_layer()
 # await channel_layer.send("channel_name", {
-#     "type": "chat.message",
-#     "text": "Hello there!",
+#	 "type": "chat.message",
+#	 "text": "Hello there!",
 # })

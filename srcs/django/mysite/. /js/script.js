@@ -40,7 +40,7 @@ function submit_registration_form (event)
 		var formData = new FormData(this);
 
 		// make post request
-		fetch('/user_api/register/', {
+		fetch('/game_api/register/', {
 			method: 'POST',
 			body: formData
 		})
@@ -66,7 +66,7 @@ function submit_login_form (event)
 		var formData = new FormData(this);
 
 		// make post request
-		fetch('/user_api/login/', {
+		fetch('/game_api/login/', {
 			method: 'POST',
 			body: formData
 		})
@@ -129,7 +129,7 @@ function hookupButtons ()
 
 	if (document.querySelector('#p_name'))
 	{
-		fetch('http://127.0.0.1:8000/user_api/who_am_i')
+		fetch('http://127.0.0.1:8000/game_api/who_am_i')
 		.then(res => res.json())
 		.then(json_res => {
 			jsonres = JSON.parse(json_res);

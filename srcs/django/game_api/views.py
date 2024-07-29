@@ -1,32 +1,29 @@
-from mysite.models import User
-from mysite.tools import myprint
 
 from django.http import JsonResponse
-from django.core import serializers
-
+from django.views.decorators.csrf import csrf_exempt
+from mysite.models import User
+from django.shortcuts import redirect
 import json
 
-# from .serializer import UserSerializer
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .pong_game import PongGame
 
-def who_am_i(request):
-	myprint (request.method + " REQUEST TO WHOAMI")
-	myprint (request.session)
+game = PongGame()
 
-	if 'login' not in request.session:
-		return JsonResponse({'error': 'no:('})
+@api_view(['GET'])
+def get_game_state(request):
+	return Response(game.get_state())
 
-	# # this gives you a list of dicts
-	# raw_data = serializers.serialize('json', User.objects.filter(username=request.session['login']))
-	# # now extract the inner `fields` dicts
-	# actual_data = [d['fields'] for d in raw_data]
-	# # and now dump to JSON
-	# output = json.dumps(actual_data)
+@api_view(['POST'])
+def move_paddle(request):
+	paddle = request.data.get('paddle')
+	direction = request.data.get('direction')
+	game.move_paddle(paddle, direction)
+	return Response(game.get_state())
 
+@api_view(['POST'])
+def update_game(request):
+	game.update()
+	return Response(game.get_state())
 
-	data = User.objects.filter(username=request.session['login'])
-	# data = User.objects.all()
-	output = serializers.serialize("json", data)
-
-	myprint(output)
-
-	return JsonResponse(output, safe=False)

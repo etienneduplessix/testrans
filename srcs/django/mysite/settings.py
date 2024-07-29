@@ -48,12 +48,14 @@ INSTALLED_APPS = [
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
 	'channels_redis',
+	'rest_framework',
 # project's apps
 	'mysite',
 	'ft_api',
-	'channels',
+	# 'channels',
 	'websocket',
 	'game_api',
+	'user_api',
 ]
 
 CHANNEL_LAYERS = {
@@ -66,18 +68,16 @@ CHANNEL_LAYERS = {
 }
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',  # Ensure this is included
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	'django.middleware.security.SecurityMiddleware',
+	'django.contrib.sessions.middleware.SessionMiddleware',
+	'django.middleware.common.CommonMiddleware',
+	'django.middleware.csrf.CsrfViewMiddleware',
+	'django.contrib.auth.middleware.AuthenticationMiddleware',
+	'django.contrib.messages.middleware.MessageMiddleware',
+	'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
 ROOT_URLCONF = 'mysite.urls'
-
 
 TEMPLATES = [
 	{
@@ -133,7 +133,6 @@ AUTH_PASSWORD_VALIDATORS = [
 		'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
 	},
 ]
-APPEND_SLASH = True
 
 
 # Internationalization

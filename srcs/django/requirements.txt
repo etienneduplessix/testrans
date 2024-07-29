@@ -4,5 +4,7 @@ requests
 django-environ
 daphne
 redis
-channels
+# channels==4.0.0
 channels_redis
+djangorestframework
+

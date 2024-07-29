@@ -1,11 +1,16 @@
-<div class="login">
-    <div class="form">
-        <form class="registration-form" method="post" action="{% url 'egister' %}/">
-            <input type="hidden" name="csrfmiddlewaretoken" value="8B0vAr2h0tx3VzHbiPB2WMMfXw1WkweK3MwUDZ8YfDj8ZGnMeFwSb1sx2uUTkA1M">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Create</button>
-            <p class="alternate"><a href="#">Log In</a></p>
-        </form>
-    </div>
-</div>
+<form autocomplete="off" class="formContainer border border-success-subtle">
+	<div class="mb-3">
+	  <label for="username_input" class="form-label">Email address</label>
+	  <input type="email" class="form-control" id="username_input" aria-describedby="emailHelp">
+	  <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+	</div>
+	<div class="mb-3">
+	  <label for="pass_input" class="form-label">Password</label>
+	  <input type="password" class="form-control" id="pass_input">
+	</div>
+	<div class="mb-3 form-check">
+	  <input type="checkbox" class="form-check-input" id="exampleCheck1">
+	  <label class="form-check-label" for="exampleCheck1">Check me out</label>
+	</div>
+	<button type="submit" class="btn btn-primary">Submit</button>
+  </form>
