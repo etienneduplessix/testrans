@@ -21,12 +21,13 @@ from django.urls import path, include
 handler404 = 'mysite.view.view_404'
 
 urlpatterns = [
+
 	path('admin/', admin.site.urls),
 	path('', view.home),
 
-	path('user_api/', include('user_api.urls')), # user registration api
+	path('user_api/', include('user_api.urls')), # user management api
 	path('api/', include('ft_api.urls')), # 42 authentication
-	path('game_api/', include('game_api.urls')), # custom api fpr game data
+	path('game_api/', include('game_api.urls')), # custom api for game data
 	path('logout/',view.logout),
 	path('templates/<str:template_name>/', view.get_template, name='get_template'),
 	path('<str:template_name>/', view.load_template, name='get_template'),

@@ -1,6 +1,216 @@
 
-<div class="formContainer border border-success-subtle">
-	<h2 id="p_name"> PLAYER NAME</h2>
-	<button type='button' class="btn btn-outline-success redirectionButtons" data-page="playerNames">Single Player</button>
-	<button type='button' class="btn btn-outline-success redirectionButtons" data-page="playerNames" >Two Players</button>
+<style>
+	#chatView
+	{
+		height: initial;
+
+	}
+	#chatView + div
+	{
+		height: initial;
+	}
+	#chatBox
+	{
+		height: 90%;
+		overflow-y: scroll;
+		list-style-type: none;
+		overflow-x: hidden;
+		overflow-wrap: break-word;
+	}
+	#chatBox
+	{
+		width: 100%;
+		list-style-type: none;
+		padding: 0;
+	}
+	#chatBox li
+	{
+		text-align: left;
+	}
+	#chatBox li.private_message
+	{
+		color:rgb(58 151 231);
+	}
+	#chatBox li.err
+	{
+		color:rgb(216, 97, 17);
+	}
+	#chatBox span
+	{
+		cursor: pointer;
+	}
+	#chatBox span.yes
+	{
+		color: green;
+	}
+	#chatBox span.no
+	{
+		color: red;
+	}
+	#chatBox span:hover
+	{
+		/* text-shadow: 0px 2px 10px; */
+		font-weight: bold;
+	}
+	#chatInput
+	{
+		width: 100%;
+	}
+	svg
+	{
+		fill:#198754;
+		width: 1.5rem;
+		height: 1.5rem;
+	}
+	svg:hover:not(#online_vis svg)
+	{
+		filter: brightness(1.5) blur(.6px);
+	}
+
+	button{
+		height: fit-content;
+	}
+	button a{
+		border: 0;
+		text-decoration: none;
+		color: inherit;
+	}
+
+	svg
+	{
+		fill:#198754;
+		width: 20px;
+		height: 20px;
+	}
+
+	svg:hover:not(#online_vis svg)
+	{
+		filter: brightness(1.5) blur(.6px);
+	}
+
+	button{
+		height: fit-content;
+	}
+	button a{
+		border: 0;
+		text-decoration: none;
+		color: inherit;
+	}
+
+	::-webkit-scrollbar {
+	width: 12px;
+}
+
+::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(30, 184, 50, 0.3);
+	border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(6, 235, 18, 0.5);
+}
+</style>
+
+
+<div class="formContainer border border-success-subtle" id="chatView">
+	<ul id="chatBox">
+
+	</ul>
+	<input type="text"  class="form-control border-outline-success" id="chatInput">
+</div>
+
+
+<div class="formContainer d-flex flex-column">
+	<div class="d-flex align-items-center">
+		<div class="flex-grow-1 text-start text-break w-100">
+			<h2 id="p_name">PLAYER NAME</h2>
+		</div>
+		<button title="profile" class="btn " id="profile_btn"> <!-- Astro icon - Profile page-->
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" >
+			<!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+			<path d="M370.7 96.1C346.1 39.5 289.7 0 224 0S101.9 39.5 77.3 96.1C60.9 97.5 48 111.2 48 128l0 64c0 16.8 12.9 30.5 29.3 31.9C101.9 280.5 158.3 320 224 320s122.1-39.5 146.7-96.1c16.4-1.4 29.3-15.1 29.3-31.9l0-64c0-16.8-12.9-30.5-29.3-31.9zM336 144l0 16c0 53-43 96-96 96l-32 0c-53 0-96-43-96-96l0-16c0-26.5 21.5-48 48-48l128 0c26.5 0 48 21.5 48 48zM189.3 162.7l-6-21.2c-.9-3.3-3.9-5.5-7.3-5.5s-6.4 2.2-7.3 5.5l-6 21.2-21.2 6c-3.3 .9-5.5 3.9-5.5 7.3s2.2 6.4 5.5 7.3l21.2 6 6 21.2c.9 3.3 3.9 5.5 7.3 5.5s6.4-2.2 7.3-5.5l6-21.2 21.2-6c3.3-.9 5.5-3.9 5.5-7.3s-2.2-6.4-5.5-7.3l-21.2-6zM112.7 316.5C46.7 342.6 0 407 0 482.3C0 498.7 13.3 512 29.7 512l98.3 0 0-64c0-17.7 14.3-32 32-32l128 0c17.7 0 32 14.3 32 32l0 64 98.3 0c16.4 0 29.7-13.3 29.7-29.7c0-75.3-46.7-139.7-112.7-165.8C303.9 338.8 265.5 352 224 352s-79.9-13.2-111.3-35.5zM176 448c-8.8 0-16 7.2-16 16l0 48 32 0 0-48c0-8.8-7.2-16-16-16zm96 32a16 16 0 1 0 0-32 16 16 0 1 0 0 32z"/></svg>
+		</button>
+		<button class="btn btn-outline-success" id="logout_btn">
+			<a href="/logout" onclick="web_socket.close()">logout</a>
+		</button>
+	</div>
+
+	<div class="container p-3 border border-success-subtle">
+		<button type='button' title="Game against AI" class="btn btn-outline-success" onclick="startAIGame(event)" id="AI_btn">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" > <!-- Robot icon - AI game -->
+				<!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+				<path d="M320 0c17.7 0 32 14.3 32 32l0 64 120 0c39.8 0 72 32.2 72 72l0 272c0 39.8-32.2 72-72 72l-304 0c-39.8 0-72-32.2-72-72l0-272c0-39.8 32.2-72 72-72l120 0 0-64c0-17.7 14.3-32 32-32zM208 384c-8.8 0-16 7.2-16 16s7.2 16 16 16l32 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-32 0zm96 0c-8.8 0-16 7.2-16 16s7.2 16 16 16l32 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-32 0zm96 0c-8.8 0-16 7.2-16 16s7.2 16 16 16l32 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-32 0zM264 256a40 40 0 1 0 -80 0 40 40 0 1 0 80 0zm152 40a40 40 0 1 0 0-80 40 40 0 1 0 0 80zM48 224l16 0 0 192-16 0c-26.5 0-48-21.5-48-48l0-96c0-26.5 21.5-48 48-48zm544 0c26.5 0 48 21.5 48 48l0 96c0 26.5-21.5 48-48 48l-16 0 0-192 16 0z"/>
+			</svg>
+		</button>
+		<button type='button'  id="tournament_btn" class="btn btn-outline-success redirectionButtons" data-page="playerNames">Tournament</button>
+
+	</div>
+
+
+</div>
+
+
+<style>
+	.user_popup
+	{
+		position: absolute;
+		width: 50%;
+		height: fit-content;
+		padding-bottom: 3rem;
+		/* height: 50%; */
+	}
+	.user_popup:not(.popup_show)
+	{
+		display: none !important;
+	}
+
+	#online_vis
+	{
+		filter: brightness(1.5) blur(.6px);
+	}
+
+
+</style>
+
+<div class="user_popup bg-success-subtle border border-success-subtle d-flex flex-column">
+	<div class="d-flex align-items-center justify-content-end">
+		<button class="btn" onclick='document.querySelector("div.user_popup").classList.remove("popup_show");'>
+			<svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 16 16">
+				<path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+			</svg>
+		</button>
+	</div>
+	<div class="popup_content container w-100 h-100">
+		<div class="row">
+			<div class="col-sm">
+				<img src="https://cdn.intra.42.fr/users/1a564b880ba6b36e5b509923753d7a9a/marvin.jpg" width="100px" height="100px" >
+			</div>
+			<div class="col-sm text-start">
+				<div class="text-end">
+					<button id="online_vis" class="btn"> <!--asterisk svg-->
+						<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-asterisk" viewBox="0 0 16 16">
+							<path d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1"/>
+						</svg>
+					</button>
+
+					<button id="add_friend" onclick="send_friend_request(event);" class="btn" ><!--plus sign svg-->
+						<svg xmlns="http://www.w3.org/2000/svg" class="bi bi-plus-square" viewBox="0 0 16 16">
+							<path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+							<path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+						</svg>
+					</button>
+					<button id="play_game"  onclick="send_game_request(event);" class="btn" ><!--plus sign svg-->
+						<svg xmlns="http://www.w3.org/2000/svg" class="bi bi-plus-square"  viewBox="0 0 512 512">
+							<!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+							<path d="M416 288c-50.1 0-93.6 28.8-114.6 70.8L68.9 126.3l.6-.6 60.1-60.1c87.5-87.5 229.3-87.5 316.8 0c67.1 67.1 82.7 166.3 46.8 248.3C471.8 297.6 445 288 416 288zM49.3 151.9L290.1 392.7c-1.4 7.5-2.1 15.3-2.1 23.3c0 23.2 6.2 44.9 16.9 63.7c-3 .2-6.1 .3-9.2 .3l-2.7 0c-33.9 0-66.5-13.5-90.5-37.5l-9.8-9.8c-13.1-13.1-34.6-12.4-46.8 1.7L88.2 501c-5.8 6.7-14.2 10.7-23 11s-17.5-3.1-23.8-9.4l-32-32C3.1 464.3-.3 455.7 0 446.9s4.3-17.2 11-23l66.6-57.7c14-12.2 14.8-33.7 1.7-46.8l-9.8-9.8C45.5 285.5 32 252.9 32 219l0-2.7c0-22.8 6.1-44.9 17.3-64.3zM416 320a96 96 0 1 1 0 192 96 96 0 1 1 0-192z"/>
+						</svg>
+					</button>
+				</div>
+				<h4 id="popup_username">username</h4>
+				<h4 id="popup_email">email</h4>
+			</div>
+
+		</div>
+	</div>
 </div>

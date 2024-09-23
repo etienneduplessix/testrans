@@ -15,8 +15,3 @@ http://127.0.0.1:8000/
 
 API WITHOUT REST
 https://dev.to/alexmercedcoder/creating-a-restful-api-with-django-without-djangorestframework-17n7
-python3 manage.py runserver  
-
-so 
-css and js in static folder and html in template and it's running like that 
-http://127.0.0.1:8000/

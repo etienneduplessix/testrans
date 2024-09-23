@@ -1,40 +1,54 @@
-from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect
 import requests
 import random
 from mysite.tools import myprint
+from django.conf import settings
+import os
 
+API_UID = os.getenv('42_API_UID')
+API_SECRET = os.getenv('42_API_SECRET')
 
 def home(request):
 	return render(request, 'index.html')
 
-from django.http import HttpResponse, Http404
-from django.conf import settings
-import os
 
 def get_template(request, template_name):
 	if request.method == 'GET':
 		template_path = os.path.join(settings.BASE_DIR, 'mysite/templates', f'{template_name}')
-		myprint("HERE: " + template_path)
-
+		myprint("HERE: ")
+		myprint(template_path)
 		if os.path.exists(template_path):
-			with open(template_path, 'r') as file:
-				return HttpResponse(file.read(), content_type='text/html')
+			# old version to open templates
+			""" with open(template_path, 'r') as file:
+				return HttpResponse(file.read(), content_type='text/html') """
+			return render(request, template_name)
 		else:
-			raise Http404("Template no bueno")
+			# print("template NOT found: ", template_path)
+			raise Http404("Template not found")
 	return HttpResponse(status=405)
 
 
 def load_template(request, template_name):
-	if template_name.endswith('.js'):
-		template_path = os.path.join(settings.BASE_DIR, 'mysite/static/js', f'{template_name}')
-		if os.path.exists(template_path):
-			with open(template_path, 'r') as file:
-				return HttpResponse(file.read(), content_type='application/js')
-		else:
-			raise Http404("Template no bueno")
-
+	myprint("load template")
 	return redirect('/?template='+template_name)
+
+# probably not necessary , test & delete
+# def load_template(request, template_name):
+# 	if template_name.endswith('.js'):
+# 		template_path = os.path.join(settings.BASE_DIR, 'mysite/static/js', f'{template_name}')
+# 		if os.path.exists(template_path):
+# 			with open(template_path, 'r') as file:
+# 				return HttpResponse(file.read(), content_type='application/js')
+# 		else:
+# 			raise Http404("Template no bueno")
+
+# 	return redirect('/?template='+template_name)
+
+
+# def load_profile(request, username):
+#     myprint("load profile template")
+#     return render(request, username)
 
 
 def view_404(request, exception=None):
@@ -55,14 +69,13 @@ def logout(request):
 	return redirect('/')
 
 
-
 def callback(request):
 	code = request.GET.get('code')
 	state = request.GET.get('state')
 
 	token_url = "https://api.intra.42.fr/oauth/token"
-	client_id = "u-s4t2ud-2bab19cc143ef78ed9f8965bfad943ab5447157ef0992e53a4cbbf0843926385"  # Replace with your actual client_id
-	client_secret = "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"  # Replace with your actual client_secret
+	client_id = API_UID  # Replace with your actual client_id
+	client_secret = API_SECRET # Replace with your actual client_secret
 	redirect_uri = "http://127.0.0.1:8000/api/callback"  # Replace with your actual redirect URI
 
 	data = {

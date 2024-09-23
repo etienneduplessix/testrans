@@ -1,16 +1,24 @@
-<form autocomplete="off" class="formContainer border border-success-subtle">
+
+<form id="registerForm" class="form-with-validation" method="post" action="/user_registration/register/">
+	{% csrf_token %}
 	<div class="mb-3">
-	  <label for="username_input" class="form-label">Email address</label>
-	  <input type="email" class="form-control" id="username_input" aria-describedby="emailHelp">
-	  <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+		<label for="email_input" class="form-label">Email address</label>
+		<input type="email" class="form-control" id="email_input" name="email" aria-describedby="emailHelp">
+		<div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
 	</div>
 	<div class="mb-3">
-	  <label for="pass_input" class="form-label">Password</label>
-	  <input type="password" class="form-control" id="pass_input">
+		<label for="username_input" class="form-label">Username</label>
+		<input type="text" class="form-control" id="username_input" name="username">
 	</div>
-	<div class="mb-3 form-check">
-	  <input type="checkbox" class="form-check-input" id="exampleCheck1">
-	  <label class="form-check-label" for="exampleCheck1">Check me out</label>
+	<div class="mb-3">
+		<label for="pass_input" class="form-label">Password</label>
+		<input type="password" class="form-control" id="pass_input" name="password">
+	</div>
+	<div class="mb-3">
+		<label for="pass_input" class="form-label">Password confirmation</label>
+		<input type="password" class="form-control" id="pass_confirm" name="password_confirm">
 	</div>
 	<button type="submit" class="btn btn-primary">Submit</button>
-  </form>
+</form>
+<div id="error-message"></div>
+<!--<input type="password" class="form-control" id="pass_input" name="password" minlength="8" maxlength="16" pattern="[A-Za-z0-9_]+">-->

@@ -1,3 +1,4 @@
+version: '3.8'
 
 services:
   db:
@@ -29,19 +30,19 @@ services:
       - network
 
   redis:
-      container_name: redis
-      build: ./srcs/redis
-      restart: always
-      env_file:
-        - .env
-      networks:
-        - network
+    container_name: redis
+    build: ./srcs/redis
+    restart: always
+    env_file:
+      - .env
+    networks:
+      - network
 
   web:
     build:
       context: ./srcs/django
     container_name: django_web
-    # command: python manage.py runserver 0.0.0.0:8000
+#    command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./srcs/django:/app
     ports:
@@ -56,12 +57,11 @@ services:
 
 volumes:
   postgres_data:
-    # driver: local # Define the driver and options under the volume name
-    #   driver_opts:
-    #     type: none
-    #     device: ~/data/db_data
-    #     o: bind
-
+  # driver: local # Define the driver and options under the volume name
+  #   driver_opts:
+  #     type: none
+  #     device: ~/data/db_data
+  #     o: bind
 
 networks:
   network:

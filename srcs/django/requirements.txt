@@ -7,4 +7,5 @@ redis
 # channels==4.0.0
 channels_redis
 djangorestframework
-
+Pillow
+neat-python

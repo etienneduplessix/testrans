@@ -5,6 +5,7 @@ import string, random
 from mysite.models import User
 from mysite.tools import myprint
 import os
+from django.contrib.auth import login, authenticate
 
 API_UID = os.getenv('42_API_UID')
 API_SECRET = os.getenv('42_API_SECRET')
@@ -21,7 +22,6 @@ def api(request):
 	scope = "public"
 	response_type = "code"
 	state = generate_state()  # Generate an unguessable random string
-	# state = 'fake_unguessable_str1234567890'  # Generate an unguessable random string
 	request.session['oauth_state'] = state # =keep state for verification
 
 	authorize_url = (
@@ -46,7 +46,6 @@ def callback(request):
 		return HttpResponse("State does not match!")
 
 	token_url = "https://api.intra.42.fr/oauth/token"
-	client_secret = "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"  # Replace with your actual client_secret
 	redirect_uri = "http://127.0.0.1:8000/api/callback"  # Replace with your actual redirect URI
 
 	data = {
@@ -85,10 +84,10 @@ def callback(request):
 				image_link=image_link)
 			user.save()
 
-		myprint("adding login to session")
+		# myprint("adding login to session")
 		request.session['login'] = user_data['login']
+		login(request, User.objects.get(username=user_data['login']))
 
-		# Optionally, you can store the access_token securely for future API requests
 
 		return HttpResponse('<script type="text/javascript">window.close()</script>')
 		# return

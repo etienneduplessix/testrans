@@ -1,56 +1,59 @@
 
-<div class="formContainer border border-success-subtle">
-	<!-- <button type='button' class="btn btn-outline-success" target="_blank" onclick="location.href = '/api'" >Intra Login</button> -->
+<div class="formContainer border border-success-subtle" id="testcontainercollapse">
 	<button type='button' class="btn btn-outline-success"
-	data-page="gameTypeForm" onclick="login()" >Intra Login</button>
-
-	<!-- <button type='button' class="btn btn-outline-success redirectionButtons" data-page="gameTypeForm" >Guest Player</button> -->
-
-
-	<button type='button' class="btn btn-outline-success" data-toggle="collapse" href="#login_div">
-			login
+			data-page="gameTypeForm" onclick="login()">Intra Login
 	</button>
 
-	<button type='button' class="btn btn-outline-success" data-toggle="collapse" href="#register_div">
-			register
+	<button type='button' class="btn btn-outline-success" data-bs-toggle="collapse" data-bs-target="#login_div"
+			data-bs-parent="#collapsible_area">
+		Login
 	</button>
 
-	<div class="collapse mt-3" id="login_div">
-	<form id="loginForm" class="form-with-validation">
-		<div class="mb-3">
-			<label for="username_input" class="form-label">Username</label>
-			<input type="text" class="form-control" id="log_username_input" name="username" required>
-		</div>
-		<div class="mb-3">
-			<label for="pass_input" class="form-label">Password</label>
-			<input type="password" class="form-control" id="log_pass_input" name="password" required>
+
+	<button type='button' class="btn btn-outline-success" data-bs-toggle="collapse" data-bs-target="#register_div"
+			data-bs-parent="#collapsible_area">
+		Register
+	</button>
+
+	<div id="collapsible_area">
+		<div class="collapse mt-3" id="login_div" data-bs-parent="#collapsible_area">
+			<form id="loginForm" class="form-with-validation">
+				{% csrf_token %}
+				<div class="mb-3">
+					<label for="log_username_input" class="form-label">Username</label>
+					<input type="text" class="form-control" id="log_username_input" name="username" required>
+				</div>
+				<div class="mb-3">
+					<label for="log_pass_input" class="form-label">Password</label>
+					<input type="password" class="form-control" id="log_pass_input" name="password" required>
+				</div>
+				<button type="submit" class="btn btn-outline-success">Submit</button>
+			</form>
 		</div>
 
-		<button type="submit" class="btn btn-outline-success">Submit</button>
-	</form>
-</div>
+		<div class="collapse mt-3" id="register_div" data-bs-parent="#collapsible_area">
+			<form id="registerForm" class="form-with-validation"
+				  oninput='password_confirm.setCustomValidity(password_confirm.value != password.value ? "Passwords do not match." : "")'>
+				  {% csrf_token %}
 
-	<div class="collapse mt-3" id="register_div">
-	<form id="registerForm" class="form-with-validation"
-	oninput='password_confirm.setCustomValidity(password_confirm.value != password.value ? "Passwords do not match." : "")'>
-		<div class="mb-3">
-			<label for="email_input" class="form-label">Email address</label>
-			<input type="email" class="form-control" id="email_input" name="email" aria-describedby="emailHelp" required>
+				  <div class="mb-3">
+					<label for="email_input" class="form-label">Email address</label>
+					<input type="email" class="form-control" id="email_input" name="email" aria-describedby="emailHelp" required>
+				</div>
+				<div class="mb-3">
+					<label for="reg_username_input" class="form-label">Username</label>
+					<input type="text" class="form-control" id="reg_username_input" name="username" required>
+				</div>
+				<div class="mb-3">
+					<label for="reg_pass_input" class="form-label">Password</label>
+					<input type="password" class="form-control" id="reg_pass_input" name="password" required>
+				</div>
+				<div class="mb-3">
+					<label for="pass_confirm" class="form-label">Password confirmation</label>
+					<input type="password" class="form-control" id="pass_confirm" name="password_confirm" required>
+				</div>
+				<button type="submit" class="btn btn-outline-success">Submit</button>
+			</form>
 		</div>
-		<div class="mb-3">
-			<label for="username_input" class="form-label">Username</label>
-			<input type="text" class="form-control" id="reg_username_input" name="username" required>
-		</div>
-		<div class="mb-3">
-			<label for="pass_input" class="form-label">Password</label>
-			<input type="password" class="form-control" id="reg_pass_input" name="password" required>
-		</div>
-		<div class="mb-3">
-			<label for="pass_confirm" class="form-label">Password confirmation</label>
-			<input type="password" class="form-control" id="pass_confirm" name="password_confirm" required>
-		</div>
-
-		<button type="submit" class="btn btn-outline-success">Submit</button>
-	</form>
-</div>
+	</div>
 </div>

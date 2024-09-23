@@ -1,23 +1,24 @@
-# cli.py
 import requests
+from urllib.parse import unquote
 
-BASE_URL = 'http://127.0.0.1:8000/game_api/'
+BASE_URL = 'http://127.0.0.1:8000/'
+LOGIN_URL = BASE_URL + 'user_api/login/'
+GAME_API_URL = BASE_URL + 'game_api/'
+CSRF_URL = BASE_URL  # Example endpoint for CSRF token
 
-def get_game_state():
-	response = requests.get(BASE_URL + 'state/')
-	return response.json()
+
+def get_game_state(15):
+    """Fetch game state after login."""
+    response = session.get(GAME_API_URL + 'state/')
+    return response.json()
 
 def move_paddle(paddle, direction):
-	response = requests.post(BASE_URL + 'move/', json={'paddle': paddle, 'direction': direction})
-	return response.json()
+    """Move the paddle in the game."""
+    response = session.post(GAME_API_URL + 'move/', json={'paddle': paddle, 'direction': direction})
+    return response.json()
 
 def update_game():
-	response = requests.post(BASE_URL + 'update/')
-	return response.json()
+    """Update the game state."""
+    response = session.post(GAME_API_URL + 'update/')
+    return response.json()
 
-# Example usage
-if __name__ == '__main__':
-	print(get_game_state())
-	move_paddle(1, 1)
-	update_game()
-	print(get_game_state())

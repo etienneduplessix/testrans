@@ -1,0 +1,63 @@
+
+<div class="content-section col-lg-12 col-md-12 col-sm-12 tutorial-style" style="min-height:65vh;">
+    <legend class="border-bottom mb-4">Profile Information</legend>
+
+    <form id="profile" method="POST"  enctype="multipart/form-data" class="form-with-validation">
+        {% csrf_token %}
+        <div>
+            <img id="avatar" class="rounded-circle account-img" alt="User avatar" c>
+            <h2 id="p_name"> PLAYER NAME</h2>
+            <div class="text-center mt-4">
+                <button type="button" data-page="friends" class="redirectionButtons btn btn-outline-success">Friends</button>
+            </div>
+        </div>
+        <div class="input">
+            <input type="text" name="username" placeholder="username" class="form-control mb-2" id="id_username">
+            <input type="email" name="email" placeholder="email@mail" class="form-control mb-2" id="id_email">
+            <input type="first_name" name="first_name" placeholder="first name" class="form-control mb-2" id="id_first_name">
+            <input type="last_name" name="last_name" placeholder="last name" class="form-control mb-2" id="id_last_name">
+        </div>
+        <button type="submit" class="btn btn-outline-success">Submit</button>
+        <a href="/passwordChange" class="d-flex align-items-center justify-content-end">Change password?</a>
+    </form>
+
+    <div class="mt-5">
+        <h4>Game Statistics</h4>
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Total games played:
+                <span class="badge bg-primary rounded-pill" id="total_games"></span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Wins:
+                <span class="badge bg-success rounded-pill" id="total_wins"></span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Losses:
+                <span class="badge bg-danger rounded-pill" id="total_losses"></span>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Canvas for the pie chart -->
+    <div class="mt-4 chart-container">
+        <canvas id="winsLossesChart"></canvas>
+    </div>
+
+    <div class="mt-5">
+        <h4>Match History</h4>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Date & Time</th>
+                <th>Opponent</th>
+                <th>Duration</th>
+                <th>Score</th>
+            </tr>
+            </thead>
+            <tbody id="match-history-body">
+            </tbody>
+        </table>
+    </div>
+
+</div>

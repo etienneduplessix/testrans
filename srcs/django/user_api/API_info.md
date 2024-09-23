@@ -7,6 +7,14 @@ register new user with email/password:
 	/user_api/register
 
 login user with email/password:
+	/user_api/login
+
+get info about self, from the USER model:
+	/user_api/who_am_i
+
+get info about user, from the USER model:
+	/user_api/who_is/<username>
+
 	/user_api/register
 
 get info about self, from the USER model:

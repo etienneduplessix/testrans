@@ -8,13 +8,11 @@ WORKDIR /app
 COPY requirements.txt /app/
 
 # Install dependencies
-# RUN apt update && apt install redis-server --yes
-# RUN add-apt-repository universe
-# RUN apt-get install redis-server
 RUN pip install -v --no-cache-dir -r requirements.txt
-# RUN service redis-server start
+
 # Copy the rest of the application code
 COPY . /app/
+# RUN python ia_op/iaopp.py
 
 # Expose the Django port
 EXPOSE 8000

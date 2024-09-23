@@ -52,10 +52,11 @@ INSTALLED_APPS = [
 # project's apps
 	'mysite',
 	'ft_api',
-	# 'channels',
+	'channels',
 	'websocket',
 	'game_api',
 	'user_api',
+	'ia_op'
 ]
 
 CHANNEL_LAYERS = {
@@ -109,12 +110,11 @@ DATABASES = {
 		'NAME': os.getenv('POSTGRES_DB'),
 		'USER': os.getenv('POSTGRES_USER'),
 		'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-		'HOST': 'db',
+		# 'HOST': 'localhost',
+		'HOST': 'db',#'db', #'postgres_db' should be localhost for debug with pgAdmin
 		'PORT': '5432',  # Replace '5432' with your database port if different
 	}
 }
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -151,12 +151,21 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = '/static/'  # Ensure the correct URL path for static files
-
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # Directory where uploaded media is saved.
+MEDIA_URL = '/media/' # Public URL at the browser
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 # Additional locations of static files
 STATICFILES_DIRS = [
-	BASE_DIR / 'mysite' / 'static',  # Added static files directory
+	BASE_DIR / 'mysite' / 'static'/'js',  # Added static files directory
 ]
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# AUTHENTICATION_BACKENDS = [
+# 	'mysite.backends.CustomBackend',
+# 	'django.contrib.auth.backends.ModelBackend',  # Optional: keep the default backend for additional compatibility
+# ]
+
+AUTH_USER_MODEL = 'mysite.User'

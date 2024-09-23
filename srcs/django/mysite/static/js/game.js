@@ -1,330 +1,191 @@
-/*
-// TODO
-	- add user scores
-*/
-
 var canvas;
 var ctx;
 var docHeight;
 var docWidth;
-
-
-
-var requestFrame = false;
-// IMPORTANT!!!!!!!!!!!
-// this var currently disables the game
 var gameon = false;
 
+class Obj {
+    constructor(ctx, x, y, fullsize = false) {
+        this.ctx = ctx;
+        this.x = x;
+        this.y = y;
+        this.color = "lightgreen";
+        this.ballSize = docHeight / 20;
+        this.paddleWidth = docWidth / 25;
+        this.paddleHeight = docHeight / 5;
+    }
 
-var leftPad_up, leftPad_down, rightPad_up, rightPad_down = false;
+    moveBall(x, y) {
+        this.ctx.clearRect(this.x - this.ballSize, this.y - this.ballSize, this.ballSize * 2 + 0.5, this.ballSize * 2 + 0.5);
+        this.x = x;
+        this.y = y;
+        this.drawBall();
+    }
 
-var ball_speed = 7;
-var paddle_speed = 10;
-var p1_name, p2_name;
-var p1_score = 0;
-var p2_score = 0;
+    drawBall() {
+        this.ctx.fillStyle = this.color;
+        this.ctx.beginPath();
+        this.ctx.arc(this.x, this.y, this.ballSize, 0, Math.PI * 2, false);
+        this.ctx.fill();
+        this.ctx.closePath();
+    }
 
-class Obj
-{
-	constructor (ctx, x, y, fullsize = false)
-	{
-		ctx = ctx;
-		this.x = x;
-		this.y = y;
-		this.color = "lightgreen";
-		this.ballSize = 15;
-		this.Xdir = false;
-		this.Ydir = false;
-		this.paddleWidth = 25;
-		this.paddleHeight = (fullsize ? docHeight : 100);
-		ctx.fillStyle = this.color;
-	}
-
-	moveBall ()
-	{
-		ctx.clearRect(this.x - (this.ballSize),
-				this.y - (this.ballSize), this.ballSize * 2 + .5, this.ballSize * 2 + .5);
-
-		if (this.Xdir) this.x += ball_speed;
-		if (!this.Xdir) this.x -= ball_speed;
-		if (this.Ydir) this.y += ball_speed;
-		if (!this.Ydir) this.y -= ball_speed;
-
-		this.drawBall();
-
-	}
-
-	drawBall (xchange = 0, ychange = 0)
-	{
-		this.x += xchange;
-		this.y += ychange;
-
-
-		ctx.fillStyle = this.color;
-		ctx.beginPath();
-		ctx.arc(this.x, this.y, this.ballSize, 0, Math.PI * 2, false);
-		ctx.fill();
-		ctx.closePath();
-
-/// added stuff
-
-		ctx.fillStyle = "red";
-		ctx.beginPath();
-		ctx.arc(this.x, this.y, 5, 0, Math.PI * 2, false);
-		ctx.fill();
-		ctx.closePath();
-
-
-		var yu = ball.y - ball.ballSize;
-		var yd = ball.y + ball.ballSize;
-		var xl = ball.x - ball.ballSize;
-		var xr = ball.x + ball.ballSize;
-
-		ctx.beginPath();
-		ctx.arc(this.x, yu, 2, 0, Math.PI * 2, false);
-		ctx.fill();
-		ctx.closePath();
-		ctx.beginPath();
-		ctx.arc(this.x, yd, 2, 0, Math.PI * 2, false);
-		ctx.fill();
-		ctx.closePath();
-		ctx.beginPath();
-		ctx.arc(xl, this.y, 2, 0, Math.PI * 2, false);
-		ctx.fill();
-		ctx.closePath();
-		ctx.beginPath();
-		ctx.arc(xr, this.y, 2, 0, Math.PI * 2, false);
-		ctx.fill();
-		ctx.closePath();
-
-	}
-
-	drawPaddle (ychange = 0)
-	{
-		// ctx.clearRect(this.x - this.ballSize, this.y - this.ballSize,
-		// 	this.paddleWidth + 2 * this.ballSize, this.paddleHeight + 2 * this.ballSize);
-
-		if (ychange)
-			ctx.clearRect(this.x -.5 , this.y -.5, this.paddleWidth + 1, this.paddleHeight + 1);
-		if (this.y + ychange <= 0)
-			ychange = this.y * -1;
-		if (this.y + ychange + this.paddleHeight >= docHeight)
-			ychange = docHeight - this.paddleHeight - this.y;
-
-		this.y += ychange;
-/* 		ctx.fillStyle = "red";
-		ctx.fillRect(this.x - this.ballSize, this.y - this.ballSize,
-			 this.paddleWidth + 2 * this.ballSize, this.paddleHeight + 2 * this.ballSize);
- */
-		ctx.fillStyle = this.color;
-		ctx.fillRect(this.x, this.y, this.paddleWidth, this.paddleHeight);
-	}
+    drawPaddle(y) {
+        this.ctx.clearRect(this.x - 0.5, this.y - 0.5, this.paddleWidth + 1, this.paddleHeight + 1);
+        this.y = y;
+        this.ctx.fillStyle = this.color;
+        this.ctx.fillRect(this.x, this.y, this.paddleWidth, this.paddleHeight);
+    }
 }
-
-
 
 var paddle_left;
 var paddle_right;
 var ball;
+var game_page = false;
 
-////FUNCTIONS
+function setupgame(pageName) {
 
-	function setupgame()
-	{
-		canvas = document.querySelector("canvas");
-		ctx = canvas.getContext('2d');
-		docHeight = document.querySelector('canvas').clientHeight;
-		docWidth = document.querySelector('canvas').clientWidth;
+    let page = page_game();
+    console.log(page); 
+    pageName = "game"   
+    if (pageName == "game")
+        game_page = true;
+    console.log(game_page);
+    canvas = document.querySelector("canvas");
+    if (!canvas) {
+        console.error('Failed to get canvas');
+        return;
+    }
+    ctx = canvas.getContext('2d');
+    if (!ctx) {
+        console.error('Failed to get canvas context');
+        return;
+    }
+    docHeight = canvas.clientHeight;
+    docWidth = canvas.clientWidth;
 
-		canvas.height = docHeight;
-		canvas.width = docWidth;
+    canvas.height = docHeight;
+    canvas.width = docWidth;
 
-		paddle_left = new Obj (ctx, 50, docHeight / 2);
-		paddle_right = new Obj (ctx, docWidth - 50 - paddle_left.paddleWidth, 0, true);
-		ball = new Obj (ctx, docWidth / 2,docHeight / 2);
+    // Adjust x-coordinates for paddles closer to the walls
+    paddle_left = new Obj(ctx, 10, docHeight / 2 - docHeight / 10);
+    paddle_right = new Obj(ctx, docWidth - 20, docHeight / 2 - docHeight / 10);
+    ball = new Obj(ctx, docWidth / 2, docHeight / 2);
 
-		reset_screen();
+    reset_screen();
+}
 
-	}
+function get_rat() {
+    return 1000 / docWidth;
+}
 
-	function getRandomInt(min, max) {
-		min = Math.ceil(min);
-		max = Math.floor(max);
-		return Math.floor(Math.random() * (max - min + 1)) + min;
-	}
+function reset_screen() {
+    ctx.clearRect(0, 0, docWidth, docHeight);
+    paddle_left.y = paddle_right.y = ball.y = docHeight / 2 - docHeight / 10;
+    ball.x = docWidth / 2;
+    paddle_left.drawPaddle(paddle_left.y);
+    paddle_right.drawPaddle(paddle_right.y);
+    ball.drawBall();
+}
 
-	function MoveBallLoop(ball) {
-		if (!gameon)
-			return;
-		checkCollision();
-		ball.moveBall();
+async function gameLoop() {
+    if (gameon) {
+        
+        await updateGameState();
+        requestAnimationFrame(gameLoop);
+    }
+}
 
-		if (rightPad_up) paddle_right.drawPaddle(-paddle_speed);
-		if (rightPad_down) paddle_right.drawPaddle(paddle_speed);
-		if (leftPad_up) paddle_left.drawPaddle(-paddle_speed);
-		if (leftPad_down) paddle_left.drawPaddle(paddle_speed);
+async function updateGameState() {
+    const csrfToken = getCookie('csrftoken');
+    try {
+    let response = await fetch('/game_api/update/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken,
+            },
+        });
 
-		paddle_left.drawPaddle();
-		paddle_right.drawPaddle();
-		if (requestFrame)
-			requestAnimationFrame(() => { MoveBallLoop(ball) });
-	}
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
 
-	function checkCollision()
-	{
-		if (ball.y - ball.ballSize <= 0)
-			ball.Ydir = true;
-		if (ball.y + ball.ballSize >= docHeight)
-			ball.Ydir = false;
+        let state = await response.json();
+        var rat = get_rat();
+        ball.moveBall(state.ball_position[0] / rat, state.ball_position[1] / rat);
+        paddle_left.drawPaddle(state.paddle1_position / rat);
+        paddle_right.drawPaddle(state.paddle2_position / rat);
 
-			var yu = ball.y - ball.ballSize;
-			var yd = ball.y + ball.ballSize;
-			var xl = ball.x - ball.ballSize;
-			var xr = ball.x + ball.ballSize;
+    } catch (error) {
+        console.error('Error updating game state:', error);
+    }
+}
 
-		if (((yu >= paddle_right.y && yu <= paddle_right.y + paddle_right.paddleHeight)
-			|| (yd >= paddle_right.y && yd <= paddle_right.y + paddle_right.paddleHeight))
-		&& (xr >= paddle_right.x))
-			{
-				// console.log ("ballx " + ball.x + "; ball.width " + ball.ballSize + "; paddle x " + paddle_right.x + "; paddle w " + paddle_right.paddleWidth);
-				if (ball.y > paddle_right.y + paddle_right.paddleHeight)
-				{
-					// console.log ("y switch");
-					ball.Ydir = true;
-				}
-				else if (ball.y < paddle_right.y)
-				{
-					// console.log ("y switch");
-					ball.Ydir = false;
-				}
+function movePaddle(paddle, direction) {
+    const csrfToken = getCookie('csrftoken');
+    fetch('/game_api/move/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken,
+        },
+        body: JSON.stringify({ paddle, direction }),
+    })
+    .then(response => response.json())
+    .then(data => console.log('Paddle moved:', data))
+    .catch(error => console.error('Error moving paddle:', error));
+}
 
-				else //if the ball is touching the paddle face
-				{
-					// console.log ("x => false");
-					ball.Xdir = false;
-				}
-			}
-		if (((yu >= paddle_left.y && yu <= paddle_left.y + paddle_left.paddleHeight)
-			|| (yd >= paddle_left.y && yd <= paddle_left.y + paddle_left.paddleHeight))
-			&& (xl <= paddle_left.x + paddle_left.paddleWidth))
-			{
-				// console.log ("ballx " + ball.x + "; ball.width " + ball.ballSize + "; paddle x " + paddle_left.x + "; paddle w " + paddle_left.paddleWidth);
-				if (ball.y > paddle_left.y + paddle_left.paddleHeight)
-				{
-					// console.log ("y switch");
-					ball.Ydir = true;
-				}
-				else if (ball.y < paddle_left.y)
-				{
-					// console.log ("y switch");
-					ball.Ydir = false;
-				}
+function pre_start(){
+    let date = Date.now();
+    console.log(date);
+    console.log ("sending start game message");
+    web_socket.send(
+        JSON.stringify({
+            'type': 'send_game_start',
+            'message': "starting game!"
+        }
+    ));
+} 
 
-				else //if the ball ids touching the paddle face
-				{
-					// console.log ("x => truue");
-					ball.Xdir = true;
-				}
-			}
+function startGame() {
+    const csrfToken = getCookie('csrftoken');
+    fetch('/game_api/start/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken,
+        },
+    })
+    .then(data => {
+        gameon = true;
+        console.log('Game started:', data);
+        gameLoop();
 
-		//hitting left wall
-		if (ball.x - ball.ballSize <= 0)
-		{
-			requestFrame = false;
-			alert (p1_name + " lost :(");
-			p2_score++;
-			reset_screen();
-		}
-		if (ball.x + ball.ballSize >= docWidth)
-		{
-			requestFrame = false;
-			alert (p1_name + " lost :(");
-			p2_score++;
-			reset_screen();
-		}
-	}
+        
+    })
+    .catch(error => console.error('Error starting game:', error));
+}
 
-	function reset_screen()
-	{
-
-		//game template gets recalled, so canvas& ctx objects are not the same. need to be redefined
-		// canvas = document.querySelector("canvas");
-		// ctx = canvas.getContext('2d');
-		// docHeight = document.querySelector('canvas').clientHeight;
-		// docWidth = document.querySelector('canvas').clientWidth;
-		// canvas.height = docHeight;
-		// canvas.width = docWidth;
-
-
-		console.log(canvas);
-		console.log(ctx);
-		ctx.clearRect(0, 0, docWidth, docHeight);
-		paddle_left.y = paddle_right.y = ball.y = docHeight / 2;
-		ball.x = docWidth / 2;
-		leftPad_up = false;
-		leftPad_down = false;
-		rightPad_up = false;
-		rightPad_down = false;
-		var dir = getRandomInt(1, 4);
-		switch (dir) {
-			case 1:
-				ball.Xdir = true;
-				ball.Ydir = true;
-				break;
-			case 2:
-				ball.Xdir = true;
-				ball.Ydir = false;
-				break;
-			case 3:
-				ball.Xdir = false;
-				ball.Ydir = true;
-				break;
-			case 4:
-				ball.Xdir = false;
-				ball.Ydir = false;
-				break;
-		}
-
-		paddle_left.drawPaddle();
-		paddle_right.drawPaddle();
-		ball.drawBall();
-
-		// document.querySelector("h3.player_score.p1").innerText = p1_score;
-		// document.querySelector("h3.player_score.p2").innerText = p2_score;
-	}
-
-	addEventListener("keydown", (KeyboardEvent) =>
-	{
-		if (!gameon)
-			return;
-		console.log (KeyboardEvent.key);
-		if (KeyboardEvent.key == "ArrowUp")
-			rightPad_up = true;
-		if (KeyboardEvent.key == "ArrowDown")
-			rightPad_down = true;
-
-		if (KeyboardEvent.key == "w")
-			leftPad_up = true;
-		if (KeyboardEvent.key == "s")
-			leftPad_down = true;
-
-		if (!requestFrame)
-			{
-				requestFrame = true;
-				MoveBallLoop(ball);
-			}
-	});
-
-	addEventListener("keyup", (KeyboardEvent) =>
-	{
-		if (KeyboardEvent.key == "ArrowUp")
-		rightPad_up = false;
-	if (KeyboardEvent.key == "ArrowDown")
-			rightPad_down = false;
-
-		if (KeyboardEvent.key == "w")
-		leftPad_up = false;
-	if (KeyboardEvent.key == "s")
-	leftPad_down = false;
+document.addEventListener('keydown', (event) => {
+    const paddle_speed = 20; // Adjust as necessary
+    if (game_page == true) {
+    switch (event.key) {
+        case 'w':
+            movePaddle(1, -paddle_speed);
+            break;
+        case 's':
+            movePaddle(1, paddle_speed);
+            break;
+        case 'ArrowUp':
+            movePaddle(2, -paddle_speed);
+            break;
+        case 'ArrowDown':
+            movePaddle(2, paddle_speed);
+            break;
+        case ' ':
+            pre_start();
+            break;
+    }}
 });
-
